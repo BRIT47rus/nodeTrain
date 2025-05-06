@@ -24,8 +24,17 @@ function getComments(req, res) {
 }
 
 function postComment(req, res) {
+    let commentJSON = '';
+    req.on('data', (chunk) => (commentJSON += chunk));
+    req.on('end', () => {
+        comments.push(JSON.parse(commentJSON));
+        res.end('Comments was resive');
+    });
+}
+function handleNotFound(req, res) {
     res.statusCode = 200;
-    res.setHeader('Content-type', '');
+    res.setHeader('Content-type', 'text/plain');
+    res.end('page not found');
 }
 
-module.exports = { getComments, getHome };
+module.exports = { getComments, getHome, postComment, handleNotFound };
