@@ -1,13 +1,13 @@
-const { log } = require('console');
 const comments = require('./data');
 const fs = require('fs');
+const qs = require('querystring');
 
 function getHome(req, res) {
     fs.readFile('./files/content-form.html', (err, data) => {
         if (err) {
             res.statusCode = 500;
             res.setHeader('Content-type', 'text/plain');
-            log(err);
+
             res.end('Cant get html');
         } else {
             res.statusCode = 200;
@@ -25,8 +25,17 @@ function getComments(req, res) {
 
 function postComment(req, res) {
     res.setHeader('Content-type', 'text/plain');
+    if (req.headers['content-type'] === 'application/x-www-form-urlencoded') {
+        let body = '';
+        req.on('data', (chunks) => {
+            body += chunks.toString();
+        });
 
-    if (req.headers['content-type'] === 'application/json') {
+        req.on('end', () => {
+            const commen = qs.parse(body);
+            console.log(commen);
+        });
+    } else if (req.headers['content-type'] === 'application/json') {
         res.statusCode = 200;
         let commentJSON = '';
         req.on('data', (chunk) => (commentJSON += chunk));
@@ -41,7 +50,7 @@ function postComment(req, res) {
         });
     } else {
         res.statusCode = 400;
-        res.end('not  Json');
+        res.end('not  Json or Form');
     }
 }
 function handleNotFound(req, res) {
