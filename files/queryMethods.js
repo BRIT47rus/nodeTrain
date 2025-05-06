@@ -24,12 +24,25 @@ function getComments(req, res) {
 }
 
 function postComment(req, res) {
-    let commentJSON = '';
-    req.on('data', (chunk) => (commentJSON += chunk));
-    req.on('end', () => {
-        comments.push(JSON.parse(commentJSON));
-        res.end('Comments was resive');
-    });
+    res.setHeader('Content-type', 'text/plain');
+
+    if (req.headers['content-type'] === 'application/json') {
+        res.statusCode = 200;
+        let commentJSON = '';
+        req.on('data', (chunk) => (commentJSON += chunk));
+        req.on('end', () => {
+            try {
+                comments.push(JSON.parse(commentJSON));
+                res.end('Comments was resive');
+            } catch (error) {
+                res.statusCode = 400;
+                res.end('Invalid Json');
+            }
+        });
+    } else {
+        res.statusCode = 400;
+        res.end('not  Json');
+    }
 }
 function handleNotFound(req, res) {
     res.statusCode = 200;
