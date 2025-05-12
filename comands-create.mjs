@@ -6,8 +6,8 @@ if (!process.argv[2] || !process.argv[3]) {
 }
 const fileSecond = process.argv[2];
 const lineQty = process.argv[3];
-const fileThird = parseInt(process.argv[3]);
-if (isNaN(fileThird)) {
+
+if (isNaN(lineQty)) {
     console.log('Nan');
     process.exit();
 }
