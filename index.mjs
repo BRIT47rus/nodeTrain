@@ -11,4 +11,14 @@ const upper = new Transform({
         cb(null, upperCase);
     },
 });
-process.stdin.pipe(upper).pipe(process.stdout);
+
+const reverseStream = new Transform({
+    transform: (chunk, encoding, cb) => {
+        const array = chunk.toString().split('');
+        const lastChar = array.pop();
+        const reversed = array.reverse().concat(lastChar).join('');
+        cb(null, reversed);
+    },
+});
+
+process.stdin.pipe(upper).pipe(reverseStream).pipe(process.stdout);
