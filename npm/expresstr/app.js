@@ -1,7 +1,13 @@
 const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => {
+const firstResponse = (req, res, next) => {
+    console.log('first get');
+    next();
+};
+const secondResponse = (req, res) => {
     res.send('<h1>Main page from express</h1>');
-});
+};
+
+app.get('/', firstResponse, secondResponse);
 app.listen(5000);
