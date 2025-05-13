@@ -9,7 +9,8 @@ if (!fs.existsSync(fileSource)) {
     process.exit(0);
 }
 if (fs.existsSync(destination)) {
-    fs.rmdirSync(destination);
+    fs.rmSync(destination, { recursive: true });
+
     console.log('copy folder remowed');
 }
 
