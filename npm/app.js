@@ -9,13 +9,26 @@ const secondResponse = (req, res) => {
     res.send('<h1>Main page from express<a href="/comments">coment</a></h1>');
 };
 const getCommentsHandler = (req, res) => {
-    res.send('<a href="/"> Нажми</a>');
+    res.send('<a href="/"> Нажми comments</a>');
+};
+const postCommentsHandler = (req, res) => {
+    res.send('Post comment');
 };
 const getCommentIdHandler = (req, res) => {
-    console.log(req.params);
     res.send(`coment is ${req.params.commentId}`);
 };
+
+//users
+const getUsersHandler = (req, res) => {
+    res.send('<a href="/"> Нажми users</a>');
+};
+const postUserHandler = (req, res) => {
+    res.send('Post user');
+};
+const getSingleUserIdHandler = (req, res) => {
+    res.send(`coment is ${req.params.userID}`);
+};
+
 app.get('/', firstResponse, secondResponse);
-app.get('/comments', getCommentsHandler);
-app.get('/comments/:commentId', getCommentIdHandler);
-app.listen(5000, () => console.log('started'));
+
+app.listen(5000, () => console.log('server started'));
