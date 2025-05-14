@@ -1,10 +1,11 @@
 const express = require('express');
-const { firstResponse, secondResponse } = require('../controls/root');
+
 const commentRoute = require('./comments');
 const usersRoute = require('./users');
+const rootRoute = require('./root');
 const router = express.Router();
 
-router.get('/', firstResponse, secondResponse);
 router.use('/users', usersRoute);
 router.use('/comments', commentRoute);
+router.use('/', rootRoute);
 module.exports = router;
